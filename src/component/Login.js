@@ -1,0 +1,64 @@
+import React from 'react';
+import '../style/Login.css';
+import locker from '../assets/locker.png';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useState } from 'react';
+import Cookies from 'js-cookie';
+
+const Login = () => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8080/login', {
+                email,
+                password
+            });
+            const { access_token, refresh_token } = response.data;
+            // Stockez les jetons JWT dans localStorage ou dans des cookies sécurisés
+            Cookies.set('accessToken', access_token);
+            Cookies.set('refreshToken', refresh_token);
+            // Redirigez l'utilisateur vers MainPage.js après une connexion réussie
+            navigate('/main'); // Utilisez push pour la redirection
+        } catch (error) {
+            console.error('Erreur lors de la connexion : ', error);
+        }
+    };
+
+
+
+    return (
+        <div className='body'>
+
+            <div className="wrapper">
+                <div className="logo">
+                    <img src={locker} alt="" />
+                </div>
+                <div className="text-center mt-4 name">
+                    Password Safetybox
+                </div>
+                <form className="p-3 mt-3">
+                    <div className="form-field d-flex align-items-center">
+                        <span className="far fa-user"></span>
+                        <input type="text" name="email" id="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </div>
+                    <div className="form-field d-flex align-items-center">
+                        <span className="fas fa-key"></span>
+                        <input type="password" name="password" id="pwd" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </div>
+                    <button type="submit" className="btn mt-3" onClick={handleSubmit} >Login</button>
+                </form>
+                <div className="text-center fs-6">
+                    <a href="#">Sign up</a>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Login;
