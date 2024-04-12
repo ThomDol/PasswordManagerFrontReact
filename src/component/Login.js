@@ -11,7 +11,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setToken } = useContext(TokenContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,9 +33,9 @@ const Login = () => {
         })
         .then((data) => {
           // Stockez les jetons JWT dans localStorage ou dans des cookies sécurisés
-          Cookies.set("accessToken", data.access_token);
-          Cookies.set("refreshToken", data.refresh_token);
-          setToken(Cookies.get("accessToken"));
+          Cookies.set("accessToken", data.accessToken);
+          Cookies.set("refreshToken", data.refreshToken);
+          console.log("login token : " + Cookies.get("accessToken"));
         });
       // Redirigez l'utilisateur vers MainPage.js après une connexion réussie
       navigate("/main"); // Utilisez push pour la redirection
@@ -80,10 +79,10 @@ const Login = () => {
           <button type="submit" className="btn mt-3" onClick={handleSubmit}>
             Login
           </button>
+          <button className="btn" onClick={() => navigate("/createUser")}>
+            Sign up
+          </button>
         </form>
-        <div className="text-center fs-6">
-          <a href="#">Sign up</a>
-        </div>
       </div>
     </div>
   );

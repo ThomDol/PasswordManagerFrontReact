@@ -1,35 +1,41 @@
 import React, { useEffect, useState } from "react";
-import TokenContext from "./TokenProvider";
-import { useContext } from "react";
+
+import Cookies from "js-cookie";
 
 const Url = () => {
-  const { token } = useContext(TokenContext);
-  let url = "https://localhost:8080/safetybox/credentials/4";
+  const token = Cookies.get("accessToken");
+  let urlEmail = "http://localhost:8080/safetybox/users/";
+  let url = "http://localhost:8080/safetybox/credentials/1";
   const [urlSiteList, setUrlSiteList] = useState([]);
 
-  useEffect =
-    (() => {
-      fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+  const display = () => {
+    console.log("url token : " + Cookies.get("accessToken"));
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        return response.json();
       })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setUrlSiteList(data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    [urlSiteList]);
+      .then((data) => {
+        setUrlSiteList(data);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  //useEffect = (display(), []);
 
   return (
     <div>
       <h1>Liste Urls</h1>
+      <div className="btn btn-success" onClick={display}>
+        Display
+      </div>
       <table class="table">
         <thead>
           <tr>
@@ -40,14 +46,14 @@ const Url = () => {
           </tr>
         </thead>
         <tbody>
-          {urlSiteList.map((data) => {
-            <tr>
+          {urlSiteList.map((data, index) => (
+            <tr key={index}>
               <th scope="row">&#10003;</th>
-              <td>data.url</td>
-              <td>data.loginId</td>
-              <td>data.password</td>
-            </tr>;
-          })}
+              <td>{data.url}</td>
+              <td>{data.loginId}</td>
+              <td>{data.password}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
