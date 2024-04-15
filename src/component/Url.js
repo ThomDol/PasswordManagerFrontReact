@@ -3,13 +3,38 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 const Url = () => {
+  const [idUserConnected, setIdUserConnected] = useState();
   const token = Cookies.get("accessToken");
-  let urlEmail = "http://localhost:8080/safetybox/users/";
-  let url = "http://localhost:8080/safetybox/credentials/1";
+  let urlGetId =
+    "http://localhost:8080/safetybox/users/" + Cookies.get("email");
+  let url = "http://localhost:8080/safetybox/credentials/" + idUserConnected;
   const [urlSiteList, setUrlSiteList] = useState([]);
+
+  const getUserId = () => {
+    fetch(urlGetId, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setIdUserConnected(data.id);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const display = () => {
     console.log("url token : " + Cookies.get("accessToken"));
+    getUserId();
+    console.log(
+      "email :" + Cookies.get("email") + " idUserConnected :" + idUserConnected
+    );
     fetch(url, {
       method: "GET",
       headers: {
