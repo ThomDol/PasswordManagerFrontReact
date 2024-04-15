@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import Cookies from "js-cookie";
 
 const Url = () => {
-  const [idUserConnected, setIdUserConnected] = useState();
-  const token = Cookies.get("accessToken");
-  let urlGetId =
-    "http://localhost:8080/safetybox/users/getByEmail/" + Cookies.get("email");
-  let url = "http://localhost:8080/safetybox/credentials/" + idUserConnected;
+  const [idUserConnected, setIdUserConnected] = useState("");
   const [urlSiteList, setUrlSiteList] = useState([]);
+  const token = Cookies.get("accessToken");
+  const email = Cookies.get("email");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (email) {
+      getUserId();
+    }
+  }, [email]);
 
   useEffect(() => {
     if (idUserConnected !== "") {
@@ -18,23 +21,17 @@ const Url = () => {
     }
   }, [idUserConnected]);
 
-  useEffect(() => {
-    getUserId();
-  }, [urlSiteList]);
-
   const getUserId = () => {
-    fetch(urlGetId, {
+    fetch("http://localhost:8080/safetybox/users/getByEmail/" + email, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
         setIdUserConnected(data.id);
-        Cookies.set("idUserConnected", idUserConnected);
+        Cookies.set("idUserConnected", data.id);
       })
       .catch((error) => {
         console.error(error);
@@ -42,51 +39,48 @@ const Url = () => {
   };
 
   const display = () => {
-    fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        return response.json();
+    if (idUserConnected !== "") {
+      fetch("http://localhost:8080/safetybox/credentials/" + idUserConnected, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then((data) => {
-        setUrlSiteList(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          setUrlSiteList(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   const handleDelete = (id) => {
-    alert("ok");
     const urlDelete = "http://localhost:8080/safetybox/credentials/" + id;
     const isConfirmed = window.confirm(
       "Êtes-vous sûr de vouloir supprimer cette information ?"
     );
     if (isConfirmed) {
-      try {
-        fetch(urlDelete, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+      fetch(urlDelete, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Erreur HTTP, statut " + response.status);
+          }
+          return response.json();
         })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Erreur HTTP, statut " + response.status);
-            }
-            return response.json();
-          })
-          .then((data) => {
-            console.log("Add");
-            navigate("/main");
-          });
-      } catch (error) {
-        console.error("Erreur lors de la creation : ", error);
-      }
+        .then(() => {
+          navigate("/main");
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la suppression : ", error);
+        });
     }
   };
 
@@ -113,14 +107,14 @@ const Url = () => {
               </td>
               <td>{data.loginId}</td>
               <td>{data.password}</td>
-              <th scope="row">
+              <td>
                 <button
                   className="btn btn-light"
                   onClick={() => handleDelete(data.id)}
                 >
                   &#10060;
                 </button>
-              </th>
+              </td>
             </tr>
           ))}
         </tbody>

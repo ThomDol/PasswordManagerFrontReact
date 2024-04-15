@@ -16,7 +16,6 @@ const UpdateUrl = () => {
   const handleUpdate = (event) => {
     event.preventDefault();
     try {
-      alert(token);
       fetch(urlApi, {
         method: "PUT",
         headers: {

@@ -3,6 +3,7 @@ import MainPage from "./MainPage";
 import Login from "./Login";
 import AddNewUrl from "./AddNewUrl";
 import UpdateUrl from "./UpdateUrl";
+import ManageUsers from "./ManageUsers";
 
 import UserCreationForm from "./UserCreationForm";
 
@@ -16,6 +17,7 @@ function App() {
           <Route path="/createUser" element={<UserCreationForm />} />
           <Route path="/addNewUrl" element={<AddNewUrl />} />
           <Route path="/updateUrl/:id" element={<UpdateUrl />} />
+          <Route path="/manageUsers" element={<ManageUsers />} />
         </Routes>
       </Router>
     </div>
