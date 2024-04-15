@@ -2,10 +2,8 @@ import React from "react";
 import "../style/Login.css";
 import locker from "../assets/locker.png";
 import { useNavigate } from "react-router-dom";
-import TokenContext from "./TokenProvider";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { useContext } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -32,10 +30,10 @@ const Login = () => {
           return response.json();
         })
         .then((data) => {
-          // Stockez les jetons JWT dans localStorage ou dans des cookies sécurisés
+          // Stockez les jetons JWT  dans des cookies
           Cookies.set("accessToken", data.accessToken);
           Cookies.set("refreshToken", data.refreshToken);
-          console.log("login token : " + Cookies.get("accessToken"));
+          Cookies.set("email", email);
         });
       // Redirigez l'utilisateur vers MainPage.js après une connexion réussie
       navigate("/main"); // Utilisez push pour la redirection
@@ -79,6 +77,7 @@ const Login = () => {
           <button type="submit" className="btn mt-3" onClick={handleSubmit}>
             Login
           </button>
+          <br />
           <button className="btn" onClick={() => navigate("/createUser")}>
             Sign up
           </button>

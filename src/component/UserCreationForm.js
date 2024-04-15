@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function UserCreationForm() {
   const url = "http://localhost:8080/safetybox/addUsers";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,7 +27,7 @@ function UserCreationForm() {
           return response.json();
         })
         .then((data) => {
-          console.log("ok :" + data.email + "& " + data.password);
+          navigate("/");
         });
     } catch (error) {
       console.error("Erreur lors de la creation : ", error);

@@ -5,6 +5,7 @@ const MainPage = () => {
   return (
     <div>
       <Header />
+      <br />
       <Url />
     </div>
   );
