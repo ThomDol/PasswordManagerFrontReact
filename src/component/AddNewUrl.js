@@ -35,7 +35,6 @@ const AddNewUrl = () => {
           return response.json();
         })
         .then((data) => {
-          console.log("Add");
           navigate("/main");
         });
     } catch (error) {
