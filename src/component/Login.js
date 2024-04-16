@@ -30,6 +30,7 @@ const Login = () => {
           return response.json();
         })
         .then((data) => {
+          console.log(data);
           // Stockez les jetons JWT  dans des cookies
           Cookies.set("accessToken", data.accessToken);
           Cookies.set("refreshToken", data.refreshToken);

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import ChooseRoleModal from "./ChooseRoleModal";
+//import "../style/ManageUsers";
 
 const ManageUsers = () => {
   const token = Cookies.get("accessToken");
@@ -111,7 +112,7 @@ const ManageUsers = () => {
           ) : null}
         </div>
       ) : (
-        <h1>Vous n'êtes pas autorisés</h1>
+        <div>Vous n'êtes pas autorisés</div>
       )}
     </div>
   );
