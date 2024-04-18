@@ -1,45 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import Cookies from "js-cookie";
 
-const ChooseRoleModal = ({ onClose, onSave, userEmail }) => {
-  const [roles, setRoles] = useState({
-    admin: false,
-    user: false,
-  });
+const ChooseRoleModal = () => {
+  const [role, setRole] = useState("");
+  const userId = Cookies.get("idUserToManageRole");
 
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setRoles((prevRoles) => ({
-      ...prevRoles,
-      [name]: checked,
-    }));
+  const handleRoleChange = (e) => {
+    setRole(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Ici, vous pouvez envoyer les données au serveur pour changer le rôle
+    console.log(`Changer le rôle de`);
+    // Après avoir soumis les données, vous pouvez rediriger l'utilisateur
+    // vers une autre page, par exemple la page principale
   };
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <h2>Gérer le rôle de {userEmail}</h2>
+    <div>
+      <h2>Manage Role</h2>
+      <form onSubmit={handleSubmit}>
+        <p>Changing role for:</p>
         <label>
-          Admin:
           <input
-            type="checkbox"
-            name="admin"
-            checked={roles.admin}
-            onChange={handleCheckboxChange}
+            type="radio"
+            value="Admin"
+            checked={role === "Admin"}
+            onChange={handleRoleChange}
           />
+          Admin
         </label>
         <label>
-          User:
           <input
-            type="checkbox"
-            name="user"
-            checked={roles.user}
-            onChange={handleCheckboxChange}
+            type="radio"
+            value="User"
+            checked={role === "User"}
+            onChange={handleRoleChange}
           />
+          User
         </label>
-        <button>Enregistrer</button>
-        <button onClick={onClose}>Annuler</button>
-      </div>
+        <br />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 };

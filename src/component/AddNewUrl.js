@@ -44,6 +44,8 @@ const AddNewUrl = () => {
 
   return (
     <div>
+      <header />
+      <br></br>
       <h1 className="bg-primary border rounded text-center">
         Entrez la nouvelle Url
       </h1>
@@ -74,7 +76,7 @@ const AddNewUrl = () => {
         Password
       </label>
       <input
-        type="password"
+        type="text"
         id="password"
         className="form-control"
         value={password}

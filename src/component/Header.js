@@ -4,19 +4,40 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
 
+  const deleteCookies = () => {
+    const cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.slice(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  };
+
+  const logout = () => {
+    deleteCookies();
+    navigate("/");
+  };
+
   return (
-    <div className="border rounded bg-primary row">
-      <div className="col-11 text-light">Bienvenue dans votre coffre fort</div>
-      <div className="col-1 justify-content-end">
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => navigate("/manageUsers")}
-        >
-          Admin
+    <ul className="nav justify-content-end">
+      <li className="nav-item">
+        <a className="nav-link active" aria-current="page" href="./main">
+          Liste
+        </a>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link" href="./manageUsers">
+          Espace Admin
+        </a>
+      </li>
+      <li class="nav-item">
+        <button className="btn btn-primary" onClick={logout}>
+          Deconnexion
         </button>
-      </div>
-    </div>
+      </li>
+    </ul>
   );
 };
 

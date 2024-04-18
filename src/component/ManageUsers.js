@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import ChooseRoleModal from "./ChooseRoleModal";
-//import "../style/ManageUsers";
+import interdit from "../assets/interdit.jpg";
+import Header from "./Header";
+import { Link, useNavigate } from "react-router-dom";
 
-const ManageUsers = () => {
+const ManageUsers = ({}) => {
   const token = Cookies.get("accessToken");
   const url = "http://localhost:8080/safetybox/users";
   const [users, setUsers] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [isAllowed, setIsAllowed] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(url, {
@@ -31,31 +30,22 @@ const ManageUsers = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [users]);
+  }, [token]);
 
-  const handleManageRole = (userEmail) => {
-    setSelectedUser(userEmail);
-    setShowModal(true);
-    console.log(selectedUser);
-    console.log(showModal);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedUser(null);
-  };
-
-  const handleSaveRole = (userEmail, roles) => {
-    // Logique pour enregistrer les rôles de l'utilisateur
-    console.log("Rôles de l'utilisateur", userEmail, ":", roles);
+  const manage = (id) => {
+    Cookies.set("idUserToManageRole", id);
+    navigate(`/changeRole/${id}`);
   };
 
   return (
     <div>
+      <Header />
       {isAllowed ? (
         <div>
-          <h1 className="bg-primary text-center">Users List</h1>
+          <h1 className="text-center">Users List</h1>
           <br />
+          <br></br>
+          <br></br>
           <table className="table">
             <thead>
               <tr>
@@ -73,14 +63,9 @@ const ManageUsers = () => {
                       <td>{data.email}</td>
                       <td>{role.roleName}</td>
                       <td>
-                        {data.email && (
-                          <button
-                            className="btn btn-light"
-                            onClick={() => handleManageRole(data.email)}
-                          >
-                            Manage Role
-                          </button>
-                        )}
+                        <button className="btn" onClick={() => manage(data.id)}>
+                          Manage User
+                        </button>
                       </td>
                     </tr>
                   ))
@@ -89,30 +74,18 @@ const ManageUsers = () => {
                     <td>{data.email}</td>
                     <td>NO ROLE</td>
                     <td>
-                      {data.email && (
-                        <button
-                          className="btn btn-light"
-                          onClick={() => handleManageRole(data.email)}
-                        >
-                          Manage Role
-                        </button>
-                      )}
+                      <button className="btn" onClick={() => manage(data.id)}>
+                        Manage User
+                      </button>
                     </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
-          {showModal ? (
-            <ChooseRoleModal
-              onClose={handleCloseModal}
-              onSave={handleSaveRole}
-              userEmail={selectedUser}
-            />
-          ) : null}
         </div>
       ) : (
-        <div>Vous n'êtes pas autorisés</div>
+        <img src={interdit} style={{ width: "80vw", height: "100vh" }} />
       )}
     </div>
   );

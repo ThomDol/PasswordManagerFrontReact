@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import Header from "./Header";
 
 const Url = () => {
   const [idUserConnected, setIdUserConnected] = useState("");
@@ -85,11 +86,17 @@ const Url = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-center">Liste Urls</h1>
+    <div className="urlList">
+      <Header />
+      <h1 className="text-center">Bienvenue dans votre coffre fort</h1>
+      <br></br>
+      <br></br>
+      <br></br>
+      <h2 className="text-center">Liste Urls</h2>
       <div className="btn btn-success" onClick={() => navigate("/AddNewUrl")}>
         Add
       </div>
+      <br />
       <table className="table">
         <thead>
           <tr>
