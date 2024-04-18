@@ -1,50 +1,100 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import Header from './Header';
 
 const ChooseRoleModal = () => {
+  const navigate = useNavigate();
   const [role, setRole] = useState("");
+  const token = Cookies.get("accessToken");
   const userId = Cookies.get("idUserToManageRole");
+  const [userEmailRoleToManage, setUserEmailRoleToManage] = useState();
+
+  useEffect(() => {
+    fetch("http://localhost:8080/safetybox/users/" + userId, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUserEmailRoleToManage(data.email);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const handleRoleChange = (e) => {
     setRole(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Ici, vous pouvez envoyer les données au serveur pour changer le rôle
-    console.log(`Changer le rôle de`);
-    // Après avoir soumis les données, vous pouvez rediriger l'utilisateur
-    // vers une autre page, par exemple la page principale
+  const handleSubmit = () => {
+    alert(role + " " + userEmailRoleToManage);
+    try {
+      fetch("http://localhost:8080/safetybox/addRoleToUser", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userEmailRoleToManage,
+          roleName: role,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            alert("erreur requete");
+            throw new Error("Erreur HTTP, statut " + response.status);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          alert("requete effectuee");
+          console.log(data);
+          navigate("./manageUsers");
+        });
+    } catch (error) {
+      console.error("Erreur lors de la creation : ", error);
+    }
   };
+
 
   return (
     <div>
+      <Header />
       <h2>Manage Role</h2>
-      <form onSubmit={handleSubmit}>
-        <p>Changing role for:</p>
+      <form >
+        <p>Changing role for: {userEmailRoleToManage}</p>
         <label>
           <input
+            id="adminRole"
+            name="role"
             type="radio"
-            value="Admin"
-            checked={role === "Admin"}
+            value="ADMIN"
+            checked={role === "ADMIN"}
             onChange={handleRoleChange}
           />
-          Admin
+          ADMIN
         </label>
+        <br />
         <label>
           <input
+            id="userRole"
+            name="role"
             type="radio"
-            value="User"
-            checked={role === "User"}
+            value="USER"
+            checked={role === "USER"}
             onChange={handleRoleChange}
           />
-          User
+          USER
         </label>
         <br />
         <br />
-        <button type="submit">Submit</button>
+        <button className="btn btn-primary" type="submit" onClick={handleSubmit}>Submit</button>
       </form>
     </div>
   );
