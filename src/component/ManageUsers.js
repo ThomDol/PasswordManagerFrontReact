@@ -52,6 +52,7 @@ const ManageUsers = ({}) => {
                 <th scope="col">UserEmail</th>
                 <th scope="col">role</th>
                 <th scope="col"></th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
@@ -63,8 +64,19 @@ const ManageUsers = ({}) => {
                       <td>{data.email}</td>
                       <td>{role.roleName}</td>
                       <td>
-                        <button className="btn" onClick={() => manage(data.id)}>
+                        <button
+                          className="btn btn-secondary"
+                          onClick={() => manage(data.id)}
+                        >
                           Manage User
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-light"
+                          onClick={() => delete data.id}
+                        >
+                          &#10060;
                         </button>
                       </td>
                     </tr>
@@ -74,8 +86,19 @@ const ManageUsers = ({}) => {
                     <td>{data.email}</td>
                     <td>NO ROLE</td>
                     <td>
-                      <button className="btn" onClick={() => manage(data.id)}>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => manage(data.id)}
+                      >
                         Manage User
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-light"
+                        onClick={() => delete data.id}
+                      >
+                        &#10060;
                       </button>
                     </td>
                   </tr>

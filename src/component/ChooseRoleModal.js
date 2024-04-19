@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import Header from './Header';
+import Header from "./Header";
 
 const ChooseRoleModal = () => {
   const navigate = useNavigate();
@@ -53,21 +53,20 @@ const ChooseRoleModal = () => {
           return response.json();
         })
         .then((data) => {
-          alert("requete effectuee");
           console.log(data);
-          navigate("./manageUsers");
+          alert("requete effectuee");
+          navigate("/manageUsers");
         });
     } catch (error) {
       console.error("Erreur lors de la creation : ", error);
     }
   };
 
-
   return (
     <div>
       <Header />
       <h2>Manage Role</h2>
-      <form >
+      <form>
         <p>Changing role for: {userEmailRoleToManage}</p>
         <label>
           <input
@@ -94,7 +93,13 @@ const ChooseRoleModal = () => {
         </label>
         <br />
         <br />
-        <button className="btn btn-primary" type="submit" onClick={handleSubmit}>Submit</button>
+        <button
+          className="btn btn-primary"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

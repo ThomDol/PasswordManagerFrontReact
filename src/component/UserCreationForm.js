@@ -6,9 +6,11 @@ function UserCreationForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     try {
       fetch(url, {
         method: "POST",
@@ -22,7 +24,7 @@ function UserCreationForm() {
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Erreur HTTP, statut " + response.status);
+            setAlreadyRegistered(true);
           }
           return response.json();
         })
@@ -47,6 +49,10 @@ function UserCreationForm() {
         onChange={(e) => setEmail(e.target.value)}
         required
       />
+      {alreadyRegistered && (
+        <span className="text-warning">Email already registered</span>
+      )}
+      <br />
 
       <label for="password" class="form-label">
         Password
@@ -63,9 +69,15 @@ function UserCreationForm() {
         Your password must be 8-20 characters long, contain letters and numbers,
         and must not contain spaces, special characters, or emoji.
       </div>
-      <div className="btn" onClick={handleSubmit}>
+
+      <br />
+      <div className="btn btn-secondary" onClick={handleSubmit}>
         Creer
       </div>
+      <br />
+
+      <br />
+      <a href="/">Back to Sign in</a>
     </div>
   );
 }

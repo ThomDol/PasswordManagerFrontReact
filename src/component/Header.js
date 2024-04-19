@@ -23,16 +23,20 @@ const Header = () => {
   return (
     <ul className="nav justify-content-end">
       <li className="nav-item">
-        <a className="nav-link active" aria-current="page" href="./main">
+        <a
+          className="nav-link active"
+          aria-current="page"
+          href="http://localhost:3000/main"
+        >
           Liste
         </a>
       </li>
       <li className="nav-item">
-        <a className="nav-link" href="./manageUsers">
+        <a className="nav-link" href="http://localhost:3000/manageUsers">
           Espace Admin
         </a>
       </li>
-      <li class="nav-item">
+      <li className="nav-item">
         <button className="btn btn-primary" onClick={logout}>
           Deconnexion
         </button>
