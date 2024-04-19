@@ -76,7 +76,7 @@ const Url = () => {
           }
           return response.json();
         })
-        .then(() => {
+        .then((data) => {
           navigate("/main");
         })
         .catch((error) => {

@@ -4,7 +4,7 @@ import interdit from "../assets/interdit.jpg";
 import Header from "./Header";
 import { Link, useNavigate } from "react-router-dom";
 
-const ManageUsers = ({}) => {
+const ManageUsers = ({ }) => {
   const token = Cookies.get("accessToken");
   const url = "http://localhost:8080/safetybox/users";
   const [users, setUsers] = useState([]);
@@ -108,7 +108,9 @@ const ManageUsers = ({}) => {
           </table>
         </div>
       ) : (
-        <img src={interdit} style={{ width: "80vw", height: "100vh" }} />
+        <div className="col mx-auto text-center" style={{ marginTop: "15%" }}>
+          <img src={interdit} style={{ width: "30%", height: "30%" }} />
+        </div>
       )}
     </div>
   );

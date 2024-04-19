@@ -31,11 +31,12 @@ const ChooseRoleModal = () => {
     setRole(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     alert(role + " " + userEmailRoleToManage);
     try {
-      fetch("http://localhost:8080/safetybox/addRoleToUser", {
-        method: "POST",
+      fetch("http://localhost:8080/safetybox/roles", {
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -53,9 +54,9 @@ const ChooseRoleModal = () => {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
+          Cookies.set("idUserToManageRole", "");
           alert("requete effectuee");
-          navigate("/manageUsers");
+          navigate("/manageUsers", { replace: true });
         });
     } catch (error) {
       console.error("Erreur lors de la creation : ", error);
@@ -95,7 +96,7 @@ const ChooseRoleModal = () => {
         <br />
         <button
           className="btn btn-primary"
-          type="submit"
+          type="button"
           onClick={handleSubmit}
         >
           Submit
