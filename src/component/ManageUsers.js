@@ -10,6 +10,7 @@ const ManageUsers = ({ }) => {
   const [users, setUsers] = useState([]);
   const [isAllowed, setIsAllowed] = useState(false);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(url, {
@@ -19,7 +20,12 @@ const ManageUsers = ({ }) => {
     })
       .then((response) => {
         if (!response.ok) {
+
+
+
+
           throw new Error(response.status);
+
         }
         return response.json();
       })
@@ -33,7 +39,6 @@ const ManageUsers = ({ }) => {
   }, [token]);
 
   const manage = (id) => {
-    Cookies.set("idUserToManageRole", id);
     navigate(`/changeRole/${id}`);
   };
 
@@ -72,12 +77,55 @@ const ManageUsers = ({ }) => {
                         </button>
                       </td>
                       <td>
-                        <button
-                          className="btn btn-light"
-                          onClick={() => delete data.id}
-                        >
-                          &#10060;
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          Manage RoleModal
                         </button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <form>
+                                  <p>Changing role for: {data.email}</p>
+                                  <label>
+                                    <input
+                                      id="adminRole"
+                                      name="role"
+                                      type="radio"
+                                      value="ADMIN"
+                                    />
+                                    ADMIN
+                                  </label>
+                                  <br />
+                                  <label>
+                                    <input
+                                      id="userRole"
+                                      name="role"
+                                      type="radio"
+                                      value="USER"
+                                    />
+                                    USER
+                                  </label>
+                                  <br />
+                                  <br />
+                                  <button
+                                    className="btn btn-primary"
+                                    type="button"
+                                  >
+                                    Submit
+                                  </button>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -96,7 +144,7 @@ const ManageUsers = ({ }) => {
                     <td>
                       <button
                         className="btn btn-light"
-                        onClick={() => delete data.id}
+                        onClick={() => setShowModal(!showModal)}
                       >
                         &#10060;
                       </button>
@@ -112,6 +160,8 @@ const ManageUsers = ({ }) => {
           <img src={interdit} style={{ width: "30%", height: "30%" }} />
         </div>
       )}
+
+
     </div>
   );
 };

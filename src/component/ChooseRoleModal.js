@@ -3,16 +3,17 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
+import { useParams } from "react-router-dom";
 
 const ChooseRoleModal = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [role, setRole] = useState("");
   const token = Cookies.get("accessToken");
-  const userId = Cookies.get("idUserToManageRole");
   const [userEmailRoleToManage, setUserEmailRoleToManage] = useState();
 
   useEffect(() => {
-    fetch("http://localhost:8080/safetybox/users/" + userId, {
+    fetch("http://localhost:8080/safetybox/users/" + id, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -33,7 +34,6 @@ const ChooseRoleModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(role + " " + userEmailRoleToManage);
     try {
       fetch("http://localhost:8080/safetybox/roles", {
         method: "PUT",
@@ -51,11 +51,16 @@ const ChooseRoleModal = () => {
             alert("erreur requete");
             throw new Error("Erreur HTTP, statut " + response.status);
           }
-          return response.json();
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json();
+          } else {
+
+            return "";
+          }
         })
         .then((data) => {
-          Cookies.set("idUserToManageRole", "");
-          alert("requete effectuee");
+          setUserEmailRoleToManage(data || "");
           navigate("/manageUsers", { replace: true });
         });
     } catch (error) {
