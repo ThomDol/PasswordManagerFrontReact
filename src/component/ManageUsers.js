@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import interdit from "../assets/interdit.jpg";
 import Header from "./Header";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const ManageUsers = ({ }) => {
+const ManageUsers = ({}) => {
   const token = Cookies.get("accessToken");
   const url = "http://localhost:8080/safetybox/users";
   const [users, setUsers] = useState([]);
@@ -20,12 +20,7 @@ const ManageUsers = ({ }) => {
     })
       .then((response) => {
         if (!response.ok) {
-
-
-
-
           throw new Error(response.status);
-
         }
         return response.json();
       })
@@ -77,17 +72,38 @@ const ManageUsers = ({ }) => {
                         </button>
                       </td>
                       <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                        >
                           Manage RoleModal
                         </button>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div
+                          className="modal fade"
+                          id="exampleModal"
+                          tabindex="-1"
+                          aria-labelledby="exampleModalLabel"
+                          aria-hidden="true"
+                        >
+                          <div className="modal-dialog">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <h1
+                                  className="modal-title fs-5"
+                                  id="exampleModalLabel"
+                                >
+                                  Modal title
+                                </h1>
+                                <button
+                                  type="button"
+                                  className="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
                               </div>
-                              <div class="modal-body">
+                              <div className="modal-body">
                                 <form>
                                   <p>Changing role for: {data.email}</p>
                                   <label>
@@ -119,9 +135,20 @@ const ManageUsers = ({ }) => {
                                   </button>
                                 </form>
                               </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                              <div className="modal-footer">
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Close
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-primary"
+                                >
+                                  Save changes
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -160,8 +187,6 @@ const ManageUsers = ({ }) => {
           <img src={interdit} style={{ width: "30%", height: "30%" }} />
         </div>
       )}
-
-
     </div>
   );
 };

@@ -48,14 +48,12 @@ const ChooseRoleModal = () => {
       })
         .then((response) => {
           if (!response.ok) {
-            alert("erreur requete");
             throw new Error("Erreur HTTP, statut " + response.status);
           }
           const contentType = response.headers.get("content-type");
           if (contentType && contentType.indexOf("application/json") !== -1) {
             return response.json();
           } else {
-
             return "";
           }
         })
