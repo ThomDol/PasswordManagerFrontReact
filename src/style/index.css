@@ -1,4 +1,5 @@
 body{
     background-image: url("../assets/coffre-fort.jpg");
     background-size:cover;
+    font-family: monospace;
 }

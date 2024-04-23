@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 
-const UpdateUrl = () => {
+const UpdateUrlModal = () => {
   const { id } = useParams();
   const token = localStorage.getItem("accessToken");
   const [url, setUrl] = useState("");

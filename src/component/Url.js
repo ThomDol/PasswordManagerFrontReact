@@ -4,9 +4,9 @@ import Cookies from "js-cookie";
 import Header from "./Header";
 
 const Url = () => {
-  const [idUserConnected, setIdUserConnected] = useState("");
+  const [idUserConnected, setIdUserConnected] = useState();
   const [urlSiteList, setUrlSiteList] = useState([]);
-  const token = Cookies.get("accessToken");
+  const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const Url = () => {
       .then((response) => response.json())
       .then((data) => {
         setIdUserConnected(data.id);
-        Cookies.set("idUserConnected", data.id);
+        localStorage.setItem("idUserConnected", data.id);
       })
       .catch((error) => {
         console.error(error);

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import interdit from "../assets/interdit.jpg";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import ChooseRoleModal from "./ChooseRoleModal";
 
 const ManageUsers = ({}) => {
-  const token = Cookies.get("accessToken");
+  const token = localStorage.getItem("accessToken");
   const url = "http://localhost:8080/safetybox/users";
   const [users, setUsers] = useState([]);
   const [isAllowed, setIsAllowed] = useState(false);
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(url, {
@@ -40,6 +39,7 @@ const ManageUsers = ({}) => {
   return (
     <div>
       <Header />
+
       {isAllowed ? (
         <div>
           <h1 className="text-center">Users List</h1>
@@ -72,87 +72,15 @@ const ManageUsers = ({}) => {
                         </button>
                       </td>
                       <td>
+                        <ChooseRoleModal index={data.id} email={data.email} />
+
                         <button
-                          type="button"
                           className="btn btn-primary"
                           data-bs-toggle="modal"
-                          data-bs-target="#exampleModal"
+                          data-bs-target={`#exampleModal-${data.id}`}
                         >
                           Manage RoleModal
                         </button>
-                        <div
-                          className="modal fade"
-                          id="exampleModal"
-                          tabindex="-1"
-                          aria-labelledby="exampleModalLabel"
-                          aria-hidden="true"
-                        >
-                          <div className="modal-dialog">
-                            <div className="modal-content">
-                              <div className="modal-header">
-                                <h1
-                                  className="modal-title fs-5"
-                                  id="exampleModalLabel"
-                                >
-                                  Modal title
-                                </h1>
-                                <button
-                                  type="button"
-                                  className="btn-close"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                ></button>
-                              </div>
-                              <div className="modal-body">
-                                <form>
-                                  <p>Changing role for: {data.email}</p>
-                                  <label>
-                                    <input
-                                      id="adminRole"
-                                      name="role"
-                                      type="radio"
-                                      value="ADMIN"
-                                    />
-                                    ADMIN
-                                  </label>
-                                  <br />
-                                  <label>
-                                    <input
-                                      id="userRole"
-                                      name="role"
-                                      type="radio"
-                                      value="USER"
-                                    />
-                                    USER
-                                  </label>
-                                  <br />
-                                  <br />
-                                  <button
-                                    className="btn btn-primary"
-                                    type="button"
-                                  >
-                                    Submit
-                                  </button>
-                                </form>
-                              </div>
-                              <div className="modal-footer">
-                                <button
-                                  type="button"
-                                  className="btn btn-secondary"
-                                  data-bs-dismiss="modal"
-                                >
-                                  Close
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn btn-primary"
-                                >
-                                  Save changes
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </td>
                     </tr>
                   ))
@@ -169,12 +97,7 @@ const ManageUsers = ({}) => {
                       </button>
                     </td>
                     <td>
-                      <button
-                        className="btn btn-light"
-                        onClick={() => setShowModal(!showModal)}
-                      >
-                        &#10060;
-                      </button>
+                      <button className="btn btn-light">&#10060;</button>
                     </td>
                   </tr>
                 );

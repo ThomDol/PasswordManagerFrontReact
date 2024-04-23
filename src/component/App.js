@@ -5,7 +5,7 @@ import AddNewUrl from "./AddNewUrl";
 import UpdateUrl from "./UpdateUrl";
 import ManageUsers from "./ManageUsers";
 import UserCreationForm from "./UserCreationForm";
-import ChooseRoleModal from "./ChooseRoleModal";
+import ChooseRole from "./ChooseRole";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           <Route path="/addNewUrl" element={<AddNewUrl />} />
           <Route path="/updateUrl/:id" element={<UpdateUrl />} />
           <Route path="/manageUsers" element={<ManageUsers />} />
-          <Route path="/changeRole/:id" element={<ChooseRoleModal />} />
+          <Route path="/changeRole/:id" element={<ChooseRole />} />
         </Routes>
       </Router>
     </div>

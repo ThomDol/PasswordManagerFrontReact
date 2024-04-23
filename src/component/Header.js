@@ -16,7 +16,7 @@ const Header = () => {
   };
 
   const logout = () => {
-    deleteCookies();
+    localStorage.clear();
     navigate("/");
   };
 

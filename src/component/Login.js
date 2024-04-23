@@ -30,13 +30,9 @@ const Login = () => {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
-          // Stockez les jetons JWT  dans des cookies
-          Cookies.set("accessToken", data.accessToken);
-          Cookies.set("refreshToken", data.refreshToken);
+          localStorage.setItem("accessToken", data.accessToken);
         });
-      // Redirigez l'utilisateur vers MainPage.js après une connexion réussie
-      navigate("/main"); // Utilisez push pour la redirection
+      navigate("/main");
     } catch (error) {
       console.error("Erreur lors de la connexion : ", error);
     }
