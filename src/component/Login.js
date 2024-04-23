@@ -34,7 +34,6 @@ const Login = () => {
           // Stockez les jetons JWT  dans des cookies
           Cookies.set("accessToken", data.accessToken);
           Cookies.set("refreshToken", data.refreshToken);
-          Cookies.set("email", email);
         });
       // Redirigez l'utilisateur vers MainPage.js après une connexion réussie
       navigate("/main"); // Utilisez push pour la redirection

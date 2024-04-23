@@ -7,14 +7,11 @@ const Url = () => {
   const [idUserConnected, setIdUserConnected] = useState("");
   const [urlSiteList, setUrlSiteList] = useState([]);
   const token = Cookies.get("accessToken");
-  const email = Cookies.get("email");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (email) {
-      getUserId();
-    }
-  }, [email]);
+    getUserId();
+  }, []);
 
   useEffect(() => {
     if (idUserConnected !== "") {
@@ -23,7 +20,7 @@ const Url = () => {
   }, [idUserConnected]);
 
   const getUserId = () => {
-    fetch("http://localhost:8080/safetybox/users/getByEmail/" + email, {
+    fetch("http://localhost:8080/safetybox/profile", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
