@@ -74,55 +74,58 @@ const UpdateUrl = () => {
   return (
     <div>
       <Header />
-      <br />
-      <h1 className="bg-primary border rounded text-center">Update</h1>
-      <br />
-      {urlToUpdate && (
-        <>
-          <label for="url" className="form-label">
-            Url
-          </label>
-          <input
-            type="text"
-            id="url"
-            className="form-control"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            required
-          />
-          <label for="loginId" className="form-label">
-            LoginId
-          </label>
-          <input
-            type="text"
-            id="loginId"
-            className="form-control"
-            value={loginId}
-            onChange={(e) => setLoginId(e.target.value)}
-            required
-          />
-          <label for="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="text"
-            id="password"
-            className="form-control"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <br />
+      <div className="col-4 mx-auto text-center">
+        <br />
+        <h1 className="text-center">Update</h1>
+        <br />
+        <br />
+        {urlToUpdate && (
+          <>
+            <label for="url" className="form-label">
+              Url
+            </label>
+            <input
+              type="text"
+              id="url"
+              className="form-control"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              required
+            />
+            <label for="loginId" className="form-label">
+              LoginId
+            </label>
+            <input
+              type="text"
+              id="loginId"
+              className="form-control"
+              value={loginId}
+              onChange={(e) => setLoginId(e.target.value)}
+              required
+            />
+            <label for="password" className="form-label">
+              Password
+            </label>
+            <input
+              type="text"
+              id="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <br />
 
-          <div
-            className="btn btn-warning
+            <div
+              className="btn btn-warning
       "
-            onClick={handleUpdate}
-          >
-            Update
-          </div>
-        </>
-      )}
+              onClick={handleUpdate}
+            >
+              Update
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

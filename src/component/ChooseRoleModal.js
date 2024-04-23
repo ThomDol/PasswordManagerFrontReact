@@ -37,8 +37,7 @@ const ChooseRoleModal = ({ index, email }) => {
           }
         })
         .then((data) => {
-          navigate("/manageUsers");
-          window.close();
+          console.log(data);
         });
     } catch (error) {
       console.error("Erreur lors de la creation : ", error);
@@ -102,6 +101,15 @@ const ChooseRoleModal = ({ index, email }) => {
                 Submit
               </button>
             </form>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       </div>

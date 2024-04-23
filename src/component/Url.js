@@ -90,39 +90,45 @@ const Url = () => {
       <br></br>
       <br></br>
       <h2 className="text-center">Liste Urls</h2>
-      <div className="btn btn-success" onClick={() => navigate("/AddNewUrl")}>
-        Add
-      </div>
-      <br />
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Url</th>
-            <th scope="col">LoginId</th>
-            <th scope="col">Password</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {urlSiteList.map((data, index) => (
-            <tr key={index}>
-              <td onClick={() => navigate(`/updateUrl/${data.id}`)}>
-                {data.url}
-              </td>
-              <td>{data.loginId}</td>
-              <td>{data.password}</td>
-              <td>
-                <button
-                  className="btn btn-light"
-                  onClick={() => handleDelete(data.id)}
-                >
-                  &#10060;
-                </button>
-              </td>
+      <div className="col-6 mx-auto">
+        <button
+          className="btn btn-success"
+          onClick={() => navigate("/AddNewUrl")}
+        >
+          Add
+        </button>
+        <br />
+
+        <table className="table table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Url</th>
+              <th scope="col">LoginId</th>
+              <th scope="col">Password</th>
+              <th scope="col"></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {urlSiteList.map((data, index) => (
+              <tr key={index}>
+                <td onClick={() => navigate(`/updateUrl/${data.id}`)}>
+                  {data.url}
+                </td>
+                <td>{data.loginId}</td>
+                <td>{data.password}</td>
+                <td>
+                  <button
+                    className="btn btn-light"
+                    onClick={() => handleDelete(data.id)}
+                  >
+                    &#10060;
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

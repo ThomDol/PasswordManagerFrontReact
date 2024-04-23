@@ -30,7 +30,7 @@ const ManageUsers = ({}) => {
       .catch((error) => {
         console.error(error);
       });
-  }, [token]);
+  }, [users]);
 
   const manage = (id) => {
     navigate(`/changeRole/${id}`);
@@ -46,31 +46,40 @@ const ManageUsers = ({}) => {
           <br />
           <br></br>
           <br></br>
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">UserEmail</th>
-                <th scope="col">role</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((data, index) => {
-                const roles = data.appRoles ? data.appRoles : [];
-                return roles.length > 0 ? (
-                  roles.map((role, roleIndex) => (
-                    <tr key={`${index}-${roleIndex}`}>
+          <div className="col-6 mx-auto">
+            <table className="table table-striped">
+              <thead className="table-dark">
+                <tr>
+                  <th scope="col">UserEmail</th>
+                  <th scope="col">role</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((data, index) => {
+                  const roles = data.appRoles ? data.appRoles : [];
+                  return roles.length > 0 ? (
+                    roles.map((role, roleIndex) => (
+                      <tr key={`${index}-${roleIndex}`}>
+                        <td>{data.email}</td>
+                        <td>{role.roleName}</td>
+                        <td>
+                          <ChooseRoleModal index={data.id} email={data.email} />
+
+                          <button
+                            className="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target={`#exampleModal-${data.id}`}
+                          >
+                            Manage User's role
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr key={`${index}`}>
                       <td>{data.email}</td>
-                      <td>{role.roleName}</td>
-                      <td>
-                        <button
-                          className="btn btn-secondary"
-                          onClick={() => manage(data.id)}
-                        >
-                          Manage User
-                        </button>
-                      </td>
+                      <td>NO ROLE</td>
                       <td>
                         <ChooseRoleModal index={data.id} email={data.email} />
 
@@ -83,27 +92,11 @@ const ManageUsers = ({}) => {
                         </button>
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr key={`${index}`}>
-                    <td>{data.email}</td>
-                    <td>NO ROLE</td>
-                    <td>
-                      <button
-                        className="btn btn-secondary"
-                        onClick={() => manage(data.id)}
-                      >
-                        Manage User
-                      </button>
-                    </td>
-                    <td>
-                      <button className="btn btn-light">&#10060;</button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       ) : (
         <div className="col mx-auto text-center" style={{ marginTop: "15%" }}>
