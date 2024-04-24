@@ -37,7 +37,7 @@ function UserCreationForm() {
   };
 
   return (
-    <div>
+    <div className="col-6 mx-auto text-center">
       <label for="email" class="form-label">
         Email
       </label>

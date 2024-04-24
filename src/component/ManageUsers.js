@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import interdit from "../assets/interdit.jpg";
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
 import ChooseRoleModal from "./ChooseRoleModal";
 
-const ManageUsers = ({}) => {
+const ManageUsers = ({ }) => {
   const token = localStorage.getItem("accessToken");
   const url = "http://localhost:8080/safetybox/users";
   const [users, setUsers] = useState([]);
   const [isAllowed, setIsAllowed] = useState(false);
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetch(url, {
@@ -32,9 +31,7 @@ const ManageUsers = ({}) => {
       });
   }, [users]);
 
-  const manage = (id) => {
-    navigate(`/changeRole/${id}`);
-  };
+
 
   return (
     <div>
@@ -88,7 +85,7 @@ const ManageUsers = ({}) => {
                           data-bs-toggle="modal"
                           data-bs-target={`#exampleModal-${data.id}`}
                         >
-                          Manage RoleModal
+                          Manage User's role
                         </button>
                       </td>
                     </tr>

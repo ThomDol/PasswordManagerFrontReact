@@ -3,7 +3,7 @@ import "../style/Login.css";
 import locker from "../assets/locker.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Cookies from "js-cookie";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");

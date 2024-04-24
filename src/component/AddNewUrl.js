@@ -6,9 +6,9 @@ import Header from "./Header";
 const AddNewUrl = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
+  const id = localStorage.getItem("idUserConnected");
   const urlApi =
-    "http://localhost:8080/safetybox/credentials/" +
-    localStorage.getItem("idUserConnected");
+    "http://localhost:8080/safetybox/credentials/" + id;
   const [url, setUrl] = useState("");
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");

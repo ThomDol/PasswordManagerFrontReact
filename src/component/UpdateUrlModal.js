@@ -1,21 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import Header from "./Header";
 
-const UpdateUrlModal = () => {
-  const { id } = useParams();
+
+
+const UpdateUrlModal = ({ idModal }) => {
   const token = localStorage.getItem("accessToken");
   const [url, setUrl] = useState("");
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [urlToUpdate, setUrlToUpdate] = useState();
-  const urlApi = "http://localhost:8080/safetybox/credentials/" + id;
-  const navigate = useNavigate();
+  const urlApi = "http://localhost:8080/safetybox/credentials/" + idModal;
+
 
   useEffect(() => {
-    fetch("http://localhost:8080/safetybox/credentials/ById/" + id, {
+    fetch("http://localhost:8080/safetybox/credentials/ById/" + idModal, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => {
@@ -63,8 +61,7 @@ const UpdateUrlModal = () => {
           }
         })
         .then((data) => {
-          console.log("url :" + data.url + "& login : " + data.loginId);
-          navigate("/main");
+          console.log(data);
         });
     } catch (error) {
       console.error("Erreur lors de la creation : ", error);
@@ -72,59 +69,84 @@ const UpdateUrlModal = () => {
   };
 
   return (
-    <div>
-      <Header />
-      <br />
-      <h1 className="bg-primary border rounded text-center">Update</h1>
-      <br />
-      {urlToUpdate && (
-        <>
-          <label for="url" className="form-label">
-            Url
-          </label>
-          <input
-            type="text"
-            id="url"
-            className="form-control"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            required
-          />
-          <label for="loginId" className="form-label">
-            LoginId
-          </label>
-          <input
-            type="text"
-            id="loginId"
-            className="form-control"
-            value={loginId}
-            onChange={(e) => setLoginId(e.target.value)}
-            required
-          />
-          <label for="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="text"
-            id="password"
-            className="form-control"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <br />
+    <div className="d-flex flex-column">
+      <div
+        className="modal fade"
+        id={`Modal-${idModal}`}
+        tabindex="-1"
+        aria-labelledby={`ModalLabel-${idModal}`}
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
 
-          <div
-            className="btn btn-warning
+              <div className="modal-body">
+                <p className="fs-2"><b>Update Url :</b></p>
+
+                {urlToUpdate && (
+                  <form>
+                    <label for="url" className="form-label">
+                      Url
+                    </label>
+                    <input
+                      type="text"
+                      id="url"
+                      className="form-control"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      required
+                    />
+                    <label for="loginId" className="form-label">
+                      LoginId
+                    </label>
+                    <input
+                      type="text"
+                      id="loginId"
+                      className="form-control"
+                      value={loginId}
+                      onChange={(e) => setLoginId(e.target.value)}
+                      required
+                    />
+                    <label for="password" className="form-label">
+                      Password
+                    </label>
+                    <input
+                      type="text"
+                      id="password"
+                      className="form-control"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <br />
+
+                    <div
+                      className="btn btn-warning
       "
-            onClick={handleUpdate}
-          >
-            Update
+                      onClick={handleUpdate}
+                    >
+                      Update
+                    </div>
+                    <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+              </div>
+            </div>
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default UpdateUrl;
+export default UpdateUrlModal;
